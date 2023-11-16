@@ -1,0 +1,2 @@
+# Neo
+A discord bot.
