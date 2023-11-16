@@ -1,0 +1,2 @@
+// dev version - removes people form whitelist (softban ig)
+//             = adds people to whitelist who arent in the discord / (would bypass db maybe)

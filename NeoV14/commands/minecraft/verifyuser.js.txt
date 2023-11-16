@@ -1,0 +1,56 @@
+const {SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js')
+const fs = require("fs")
+const config = require('../../jsons/config.json')
+const errors = require('../../utils/errors.js');
+const {unverified, verified} = require('../../libs/db.js')
+
+const WLPath = /*"../*/`${__dirname}/../../../Bungee4/lobby/whitelist.json`
+const whitelist = require(WLPath)
+const minersRoleID = "1075267520644263956"
+
+const {fetchMc, fetchMcUUID} = require("../../utils/mcUtils.js")
+
+module.exports = {
+	aliases: ['vwl', 'verifywl'],
+	category: '',
+	//local: 'mc server guild id'
+	data: new SlashCommandBuilder()
+		.setName('verifyuser')
+		.setDescription('Whitelists queued users.')
+		.addUserOption(option => option.setName('user')
+			.setDescription('Enter the username of the person you wish to verify. Leave blank for yourself.')
+		)
+
+		/*.addStringOption(option => option.setName('debug') // for removing/blacklisting/clearing queued.
+			.setDescription('Currently does nothing, please ignore.')
+		)*/,
+
+		async run (interaction) {
+			//if (interaction.guild.id != config.myServer) return errors.noArg(interaction, "This can only be used in Xaviers discord.", "Incorrect server.")
+			if (!interaction.guild.members.cache.get(interaction.user.id).roles.cache.has('697499237151408229')) return errors.noArg(interaction, "No permission.");
+
+			let user = interaction.options.getUser('user') || interaction.user;
+			
+			let unvUser = (await unverified.findByPk(user.id))
+			if(unvUser == null) return errors.noArg(interaction, `The user **${user.username}** does not have any minecraft information queued.`)
+			
+			let verifiedCheck = (await verified.findByPk(user.id))
+			if(verifiedCheck == null){
+				 //Add the role!
+				interaction.guild.members.cache.get(user.id).roles.add(minersRoleID);
+					
+				//push data to wl and DB
+				whitelist.push(unvUser.mc)
+					fs.writeFileSync(WLPath, JSON.stringify(whitelist), (err) => {if(err) return console.log(err)})
+				
+				interaction.editReply(`<@${user.id}> has been whitelisted under the username ${unvUser.mc.name} and added to the miners role `)
+
+				//create verified
+				let vUser = await new verified({id: user.id, uuid: unvUser.mc.uuid})
+				await vUser.save();
+
+				//delete unv
+				await unverified.destroy({where: {id: user.id}})
+			}
+		}
+	}

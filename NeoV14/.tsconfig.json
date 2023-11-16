@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node16",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "target": "ESNext"
+    
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

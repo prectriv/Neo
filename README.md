@@ -1,2 +1,2 @@
 # Neo
-A discord bot.
+A discord bot made by prectriv
