@@ -2,11 +2,11 @@
 
 ## Folder Structure
 > [!Note]
-> Please note that this folder structure is designed in a way that allows all new commands and event handlers to be added dynamically without speific configuration by the user.
+> Please note that this folder structure is designed in a way that allows all new commands and event handlers to be added dynamically without speific configuration by the user in any other manner other than following the structure present in these files.
 > Check `./index.js` and `./utils/deploycmd.js` for more information.
 
 - `./commands/`
-    - this folder contains subfolders each pertaining to their category name like so: `/<category>/<name>.js`
+    - This folder contains subfolders each pertaining to their category name like so: `/<category>/<name>.js`
     - Within those folders, there are individual command files 
 - `./events/`
     - This folder contains discord event handler files named for the event in which they correspond to
