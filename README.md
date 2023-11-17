@@ -2,6 +2,8 @@
 A discord bot made by prectriv
 
 ## Current code `./NeoV14/`
+> [!Note]
+> Individual readme within this subfolder.
 - This is simply the most recent itteration of this bot. There are previous versions that I have intentionally left private for now.
 
 ## Old Music Bot Code in `./archive/`
