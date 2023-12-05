@@ -2,6 +2,7 @@ const {SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowB
 const {rr} = require('../../libs/db.js');
 const config = require('../../jsons/config.json');
 const errors = require('../../utils/errors.js');
+const {rrEditMessage} = require('../../utils/functions.js');
 
 module.exports = {
 	aliases: ['rra'],
@@ -22,6 +23,7 @@ module.exports = {
 		async run (interaction) {
 			//get role and desc input
 			let role = await interaction.options.getRole('role');
+			if(role.rawPosition == 0) return errors.noArg(interaction, 'You cannot add the @everyone role to the reaction roles message!'); //if the role is @everyone, return.
 			let desc = await interaction.options.getString('description');
 
 			// Guild Reaction Roles
@@ -40,49 +42,11 @@ module.exports = {
 			}
 			await grr.save();
 
-			//Once the roles have all been added, manage the message.
-			await rr.findOne({where: {guild: interaction.guild.id}}).then(async grr => {
-				let descriptionBuilder = [];
-				for(let i = 0; i < grr.roles.length; i++) {//for each role in the DB, add it to the description.
-					descriptionBuilder.push(`${i + 1}) <@&${grr.roles[i].id}> - ${grr.roles[i].desc}`);
-				}
-				
-				descriptionBuilder = descriptionBuilder.join("\n"); //join the description elements with newlines.
+			//edit message
+			await rrEditMessage(rr, interaction);
 
-				let embed = new EmbedBuilder() // create embed with dybamically generated description.
-					.setTitle('Reaction Roles')
-					.setColor(config.color)
-					.setDescription(descriptionBuilder)
-					.setFooter({text: 'React to this message to get a role!'});
-			
-				let interactionRows = []
-				//create buttons
-				for(let i = 0; i < 5; i++) {//for each row up to five.
-					let buttons = [];
-					for(let j = 5*i; j < 5*(i+1); j++){ // 5 buttons per row, incrementing in 5s based on the row number.
-						let role = grr.roles[j];
-						if(!role) break;
-						buttons.push( // create a button and add it to the array.
-							new ButtonBuilder()
-								.setCustomId(`RR_${interaction.guild.id}_${role.id}`)//how to determine the role id.
-								.setLabel(`${role.name}`)
-								.setStyle(ButtonStyle.Secondary)
-						);
-					}
-					if(buttons.length == 0) break; //if there are no buttons, break.
-					interactionRows.push(new ActionRowBuilder().addComponents(buttons)); //add the row to the rows list.
-					if(buttons.length != 5) break; //if there are less than 5 buttons, break.
-				}
-
-				//fetch message
-				let msg = await interaction.channel.messages.fetch(grr.message); 
-					//edit message
-					msg.edit({context: '', embeds: [embed], components: [...interactionRows]});
-
-				//reply to interaction to show success.
-				interaction.editReply({content: `${role} has been added into the reaction roles message!`})
-
-			});
+			//reply to interaction to show success.
+			interaction.editReply({content: `${role} has been added into the reaction roles message!`})
 
 		}
-}
+	}
