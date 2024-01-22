@@ -2,9 +2,8 @@ const config = require("../jsons/config.json")
 const WLPath = /*"../*/`${__dirname}/../../Bungee4/lobby/whitelist.json`
 const whitelist = require(WLPath)
 const errors = require('../utils/errors.js');
-const {verified} = require('../libs/db.js');
-const fs = require("fs")
-
+const {verified} = require('../libs/wldb.js');
+const fs = require("fs");
 
 module.exports = {
 	name: 'guildMemberRemove',
@@ -21,7 +20,7 @@ module.exports = {
 				}
 			}
 
-			await verified.destroy({where: {id: member.id}});
+		await verified.destroy({where: {id: member.id}});
 					 
 		}
 	}

@@ -1,5 +1,5 @@
 const {SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js')
-const {rr} = require('../../libs/db.js')
+const {rr} = require('../../libs/rrdb.js')
 const {rrEditMessage} = require('../../utils/functions.js');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
 		),
 
 		async run (interaction) {
-			//get role and desc input
+			//get role to be deleted
 			let role = await interaction.options.getRole('role');
 			// Guild Reaction Roles
 			await rr.findOne({where: {guild: interaction.guild.id}}).then(async grr => {
@@ -32,11 +32,11 @@ module.exports = {
 								return interaction.editReply({content: 'RR removed!'});
 							}
 
-							await interaction.editReply({content: 'Role removed!'});
+							interaction.editReply({content: 'Role removed!'});
 							await grr.save();
 						
 							//edit message
-							await rrEditMessage(rr, interaction);
+							await rrEditMessage(interaction);
 
 							//reply to interaction to show success.
 							interaction.editReply({content: `${role} has been removed from the reaction roles message!`})

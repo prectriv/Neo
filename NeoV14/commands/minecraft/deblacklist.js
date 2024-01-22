@@ -2,7 +2,7 @@ const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const fs = require("fs")
 const config = require('../../jsons/config.json')
 const errors = require('../../utils/errors.js');
-const {blacklist} = require('../../libs/db.js')
+const {blacklist} = require('../../libs/wldb.js')
 
 
 module.exports = {

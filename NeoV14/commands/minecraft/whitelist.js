@@ -2,7 +2,7 @@ const {SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowB
 const fs = require("fs")
 const config = require('../../jsons/config.json')
 const errors = require('../../utils/errors.js');
-const {unverified, verified, blacklist} = require('../../libs/db.js')
+const {unverified, verified, blacklist} = require('../../libs/wldb.js')
 const {capitalize} = require(`../../utils/functions.js`)
 
 const {fetchMc, fetchMcUUID} = require("../../utils/mcUtils.js")

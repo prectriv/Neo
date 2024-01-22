@@ -4,13 +4,13 @@ const minersRoleID = "1075267520644263956"
 const {EmbedBuilder} = require('discord.js')
 const config = require('../jsons/config.json')
 
-const {unverified, verified, blacklist, rr} = require('../libs/db.js')
-
-const errors = require('../utils/errors.js');
+const {unverified, verified, blacklist} = require('../libs/wldb.js')
+const {rr} = require('../libs/rrdb.js')
 
 const fs = require("fs")
+const { rrEditMessage } = require('../utils/functions.js')
 
-module.exports = {
+module.exports = { // TODO: break this out into multiple files for readability
 	name: 'interactionCreate',
 	async run (interaction, user, token) {
 		//console.log(interaction.applicationId) this is way to get client id
@@ -91,18 +91,19 @@ module.exports = {
 
 			//Find the role, then attempt to add it.
 			let role = interaction.guild.roles.cache.get(roleID);
-				if(!role) return //error handling
+				if(!role) return rrEditMessage(interaction); //role doesnt exist to update msg
 
 			let embed = new EmbedBuilder()
 				if(interaction.member.roles.cache.has(roleID)) { //if the user has the role, remove it.
-					interaction.member.roles.remove(roleID) //remove the role
+					await interaction.member.roles.remove(roleID) //remove the role
 					embed.setColor(config.negHex).setDescription(`${role} has been removed.`);
 				} else { //if the user does not have the role, add it.
-					interaction.member.roles.add(roleID) //add the rolee
+					await interaction.member.roles.add(roleID) //add the rolee
 					embed.setColor(config.posHex).setDescription(`${role} has been added.`);
 				}
 
-			interaction.reply({embeds: [embed], ephemeral: true})//reply to interaction to show success.
+			await interaction.reply({embeds: [embed], ephemeral: true}); //reply to interaction to show success.
+			await rrEditMessage(interaction); //edit message
 
 		} else if(interaction.isChatInputCommand()) {// shash command input
 			const command = interaction.client.commands.get(interaction.commandName) ?? interaction.client.commands.get(interaction.client.aliases.get(interaction.commandName))
