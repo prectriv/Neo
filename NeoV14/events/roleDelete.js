@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'roleDelete',
 	async run (role, token) {
-		const {rr} = require('../libs/rrdb.js');
+		const {rr} = require('../libs/gdb.js');
 
 		// Guild Reaction Roles
 		await rr.findOne({where: {guild: role.guild.id}}).then(async grr => {

@@ -76,7 +76,7 @@ module.exports = {
 							.setDescription(`You have been queued with the username: **${playerData.name}**!\nPlease wait for an admin to verify you.`);
 
 						let m = (await interaction.editReply({embeds: [acceptEmbed], components: []}));
-						unvUser.wl_msg = m.id
+						unvUser.wlMsg = m.id
 						unvUser.mc = playerData
 
 //send embed to verification channel and have admins allow or blacklist

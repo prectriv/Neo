@@ -6,12 +6,12 @@ function capitalize(text){
 
 const {EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js');
 const config = require('../jsons/config.json');
-const {rr} = require('../libs/rrdb.js');
+const {rr} = require('../libs/gdb.js');
 
 /**
  * Edits the message for the reaction roles.
-= * @param {*} interaction the interaction that triggered the edit.
- */
+ * @param {*} interaction the interaction that triggered the edit.
+*/
 async function rrEditMessage(interaction) {
 	//Once the roles have all been added, manage the message.
 	await rr.findOne({where: {guild: interaction.guild.id}}).then(async grr => {
@@ -71,7 +71,6 @@ async function rrEditMessage(interaction) {
 		let msg = await interaction.channel.messages.fetch(grr.message); 
 			//edit message
 			msg.edit({context: '', embeds: [embed], components: [...interactionRows]});
-
 	});
 }
 

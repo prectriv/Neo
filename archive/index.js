@@ -80,7 +80,7 @@ client.on("guildDelete", async guild => events.guildDelete(client, guild)); //ma
 client.on("guildMemberAdd", async member => events.join(client, member)); 
 client.on("guildMemberRemove", async member => events.leave(client, member));
 //client.on("channelCreate", async channel => events.channelCreate(client, channel));
-//zclient.on("channelDelete", async channel => events.channelDelete(client, channel));
+//client.on("channelDelete", async channel => events.channelDelete(client, channel));
 client.on("voiceStateUpdate", async (oldState, newState) => {
     var server_queue = queue.get(oldState.guild.id)
     if(!server_queue) return;
@@ -186,7 +186,7 @@ client.on("messageCreate", async message => {
         }
     }
 
-    if(prefs[message.guild.id].override == false){
+    if(!prefs[message.guild.id].override){
         if(message.content.startsWith(prefix)) return runCommand(false);
     }
 
@@ -208,7 +208,7 @@ client.on("messageCreate", async message => {
                 economy[message.guild.id].members[message.author.id].coins = economy[message.guild.id].members[message.author.id].coins += amnt
                     functions.json('economy', economy)
 
-                if(prefs[message.guild.id].coinMsg == true){ 
+                if(prefs[message.guild.id].coinMsg){ 
                     let coinEmbed = new Discord.MessageEmbed()
                         .setAuthor({name:`+${amnt} coins`, iconURL: message.author.displayAvatarURL()})
                         .setColor(config.warnHex)
@@ -224,7 +224,7 @@ client.on("messageCreate", async message => {
             if(!message.member) message.member = await message.guild.fetchMember(message);
 
             let args;
-            if(custom == false) {
+            if(!custom) {
                 args = message.content.slice(prefix.length).trim().split(/ +/g);
             } else {
                 args = message.content.slice((prefs[message.guild.id].prefix).length).trim().split(/ +/g);

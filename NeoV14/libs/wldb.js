@@ -26,7 +26,7 @@ const unverified = sequelize.define("unverified", {
 		type: DataTypes.JSON,
 		allowNull: false
 	},
-	wl_msg: {
+	wlMsg: {
 		type: DataTypes.STRING,
 		allowNull: false
 	}

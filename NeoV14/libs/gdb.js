@@ -1,7 +1,7 @@
 const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize({ username: DataTypes.STRING, database: DataTypes.STRING, 
 							dialect: "sqlite", dialectModule: require("sqlite3"), 
-							storage: `${__dirname}/DATA/RR.db`, define: {freezeTableName: true, charset: "utf-8"}, logging: false
+							storage: `${__dirname}/DATA/GUILD_INFO.db`, define: {freezeTableName: true, charset: "utf-8"}, logging: false
 						});
 
 const rr = sequelize.define("rr", {
@@ -26,7 +26,21 @@ const rr = sequelize.define("rr", {
 		}	
 		*/
 	}
-	
+});
+
+const vcCreator = sequelize.define("vcCreator", {
+	guild: {
+		type: DataTypes.STRING,
+		primaryKey: true
+	},
+	channelID: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	category: {
+		type: DataTypes.STRING,
+		allowNull: true
+	}
 });
 
 (async () => {
@@ -35,7 +49,8 @@ const rr = sequelize.define("rr", {
 
 
 module.exports = {
-	rr
+	rr,
+	vcCreator
 }
 
 //sequelize = new _sequelize.Sequelize({ username: config.db_user, database: config.db_name, password: config.db_password, dialect: "sqlite", dialectModule: require("sqlite3"), storage: config.db_file, define: {freezeTableName: true, charset: "utf-8"}, logging: log })

@@ -5,7 +5,7 @@ const {EmbedBuilder} = require('discord.js')
 const config = require('../jsons/config.json')
 
 const {unverified, verified, blacklist} = require('../libs/wldb.js')
-const {rr} = require('../libs/rrdb.js')
+const {rr} = require('../libs/gdb.js')
 
 const fs = require("fs")
 const { rrEditMessage } = require('../utils/functions.js')
@@ -39,8 +39,8 @@ module.exports = { // TODO: break this out into multiple files for readability
 				try {
 					//fetch origonal message stored in the db
 					let wl_channel = await interaction.guild.channels.cache.get('755232058049298465')
-					let wl_msg = await wl_channel.messages.fetch(unvUser.wl_msg)
-					wl_msg.delete()
+					let wlMsg = await wl_channel.messages.fetch(unvUser.wlMsg)
+					wlMsg.delete()
 
 					let acceptEmbed = new EmbedBuilder()
 						.setTitle('Whitelisted Successfully!')
@@ -57,21 +57,21 @@ module.exports = { // TODO: break this out into multiple files for readability
  
 			} else { //blacklist
 				try {
-					let wl_msg = await wl_channel.messages.fetch(unvUser.wl_msg)
-					wl_msg.delete()
+					let wlMsg = await wl_channel.messages.fetch(unvUser.wlMsg)
+					wlMsg.delete()
 				} catch {}
 				
 				try {
 					//fetch origonal message stored in the db
 					let wl_channel = await interaction.guild.channels.cache.get('755232058049298465')
-					let wl_msg = await wl_channel.messages.fetch(unvUser.wl_msg)
+					let wlMsg = await wl_channel.messages.fetch(unvUser.wlMsg)
 
 					let blacklistEmbed = new EmbedBuilder()
 						.setTitle('Blacklisted')
 						.setColor(config.negHex)
 						.setDescription(`<@${id}> has been blacklisted and will not be able able to whitelist again.\nPlease contact an admin if you believe this is a mistake.`);
 
-					wl_msg.edit({embeds: [blacklistEmbed], components: []});
+					wlMsg.edit({embeds: [blacklistEmbed], components: []});
 					interaction.reply({embeds: [blacklistEmbed.setDescription(`<@${id}> has been blacklisted and will not be able able to whitelist again.`)]});
 					interaction.message.delete();
 

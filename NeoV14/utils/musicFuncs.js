@@ -62,7 +62,6 @@ module.exports = {
 		if(!data.vid && !data.pid) return errors.noArg(interaction, 'Please double check this URLs formatting if it is a YouTube link, or use a different bot if you desire a different media platform (for now...)', 'Error: Invalid URL' )
 		return data
 
-
 		/* url formats: + = works
 		https://youtu.be/IfeGUIPeScg?list=PLAzrFsZaBYM9cqsZM7NVZ-iT42wLXFLAb +
 		https://youtu.be/IfeGUIPeScg +

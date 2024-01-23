@@ -1,5 +1,5 @@
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js');
-const {rr} = require('../../libs/rrdb.js');
+const {rr} = require('../../libs/gdb.js');
 const config = require('../../jsons/config.json');
 const errors = require('../../utils/errors.js');
 const {rrEditMessage} = require('../../utils/functions.js');
