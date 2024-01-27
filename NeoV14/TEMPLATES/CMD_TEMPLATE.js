@@ -1,7 +1,7 @@
 const {SlashCommandBuilder}  = require('discord.js')
 
 module.exports = { 
-    aliases: [],   // array of aliases for the command. Will Dyna
+    aliases: [],   // array of aliases for the command. Will Dynamically add them to the commandhandler.
     ephemeral: BOOLEAN, // true or false - if true, the command will only be visible to the user who ran it.
     category: '', // category of the command. Will be used for the help command (currently a placeholder)
     data: new SlashCommandBuilder()

@@ -40,7 +40,12 @@ const vcCreator = sequelize.define("vcCreator", {
 	category: {
 		type: DataTypes.STRING,
 		allowNull: true
+	},
+	spawnedVCs: {
+		type: DataTypes.ARRAY(DataTypes.STRING), //array of strings representing the ids of the spawned vcs
+		allowNull: true
 	}
+
 });
 
 (async () => {

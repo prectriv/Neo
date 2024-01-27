@@ -8,7 +8,7 @@ module.exports = {
 		if(!gvc) return;
 
 		if(newState.channelId == oldState.channelId) return; //means user deafened or muted
-		if(newState.channelId == gvc.channelID) return; //means user joined the channel
+		if(newState.channelId == gvc.channelID) ; //means user joined the channel
 		if(newState.channelId == null) return; //means user left the channel
 
 		let channel = newState.guild.channels.cache.get(gvc.channel);
