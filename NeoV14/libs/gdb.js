@@ -33,19 +33,24 @@ const vcCreator = sequelize.define("vcCreator", {
 		type: DataTypes.STRING,
 		primaryKey: true
 	},
-	channelID: {
+	channel: {
 		type: DataTypes.STRING,
-		allowNull: false
 	},
 	category: {
 		type: DataTypes.STRING,
-		allowNull: true
 	},
 	spawnedVCs: {
-		type: DataTypes.ARRAY(DataTypes.STRING), //array of strings representing the ids of the spawned vcs
-		allowNull: true
+		type: DataTypes.TEXT, //array of strings representing the ids of the spawned vcs
+		allowNull: false,
+		defaultValue: '[]',
+		get() {
+			return JSON.parse(this.getDataValue('spawnedVCs'));
+		},
+		set(val) {
+			this.setDataValue('spawnedVCs', JSON.stringify(val));
+		},	
+		//defaultValue: [],
 	}
-
 });
 
 (async () => {
