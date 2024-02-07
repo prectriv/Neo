@@ -31,10 +31,11 @@ module.exports = {
 					await gvc.save();
 				}
 			}
-		} else if(JSON.stringify(gvc.spawnedVCs.filter(vc => vc.id == newState.channelId)) != '[]'){ //means that the user joined a channel that is a spawned vc
+		//check if the user joined a spawned vc channel
+		} else if(JSON.stringify(gvc.spawnedVCs.filter(vc => vc.id == newState.channelId)) != '[]'){
 			console.log('User joined a spawned vc channel')
-			let vcObject = gvc.spawnedVCs.filter(vc => vc.id == newState.channelId);
-			if(vcObject.timeoutid != null) {
+			let vcObject = gvc.spawnedVCs.filter(vc => vc.id == newState.channelId); 
+			if(vcObject.timeoutid != null) { //if the timeout is set, clear it and remove it from the object
 				clearTimeout(vcObject.timeoutid); 
 				vcObject.timeoutid = null;
 				let temp = gvc.spawnedVCs.filter(vc => vc.id != newState.channelId);
@@ -43,6 +44,7 @@ module.exports = {
 			}
 		}
 
+		//if the user joined the vccreator channel, create a new vc for them
 		if(newState.channelId == gvc.channel){
 			console.log('User joined the vccreator channel');			
 

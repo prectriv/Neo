@@ -57,7 +57,6 @@ module.exports = {
 						}
 					});
 					collector.on('end', async collected => {
-						console.log('ran')
 						await msg.delete().catch(e => {});
 					});
 				});
