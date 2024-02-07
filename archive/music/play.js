@@ -47,7 +47,7 @@ module.exports = {
             playMsg: null,
             listeners: false,
             leaveMsg: null,
-            leageMsgTimeoutID: null,
+            leaveMsgTimeoutID: null,
             first: false
         }
         var server_queue = queue.get(message.guild.id);

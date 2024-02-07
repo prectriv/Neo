@@ -22,7 +22,7 @@ const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'
 
 for (var file of eventFiles) {
 	const event = require(`./events/${file}`)
-	//event.once -> event only runs ONCE and never again. .on is whenever the event is called.
+	//event.once -> event only runs ONCE and never again. event.on is whenever the event is emitted.
 	event.once ? client.once(event.name, (...args) => event.run(...args, token)) : client.on(event.name, (...args) => event.run(...args, token))
 }
 

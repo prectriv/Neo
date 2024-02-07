@@ -10,10 +10,11 @@ const {rr} = require('../libs/gdb.js')
 const fs = require("fs")
 const { rrEditMessage } = require('../utils/functions.js')
 
-module.exports = { // TODO: break this out into multiple files for readability
+module.exports = { // TODO: break this out into multiple files for readability. Different files for WL, RR, and shash commands. Perhaps a folder.
 	name: 'interactionCreate',
 	async run (interaction, user, token) {
 		//console.log(interaction.applicationId) this is way to get client id
+
 		if (interaction.isButton() && interaction.customId.startsWith("WL")) {//whitelisting pipeline 
 			let id = interaction.customId.split("_")[2]
 			//fetch from db

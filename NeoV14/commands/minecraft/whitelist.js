@@ -102,10 +102,8 @@ module.exports = {
 
 						
 					} else interaction.editReply({embeds: [denyEmbed], components: []})
-			
 
 				});
 				collector.on('end', lamda);
-			
+			}
 		}
-	}

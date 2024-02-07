@@ -34,7 +34,7 @@ module.exports = {
 
 							interaction.editReply({content: 'Role removed!'});
 							await grr.save();
-						
+
 							//edit message
 							await rrEditMessage(interaction);
 
@@ -45,7 +45,7 @@ module.exports = {
 							return interaction.editReply({content: `${role} is not in the role message!`});
 						}
 					});
-			
+
 				} else { //no db exists
 					return interaction.editReply({content: 'There are no reaction roles set up for this server!'});
 				}

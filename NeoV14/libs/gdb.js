@@ -23,7 +23,7 @@ const rr = sequelize.define("rr", {
 		},
 		set(val) {
 			this.setDataValue('roles', JSON.stringify(val));
-		}	
+		}
 		*/
 	}
 });
@@ -33,23 +33,16 @@ const vcCreator = sequelize.define("vcCreator", {
 		type: DataTypes.STRING,
 		primaryKey: true
 	},
-	channel: {
-		type: DataTypes.STRING,
-	},
 	category: {
-		type: DataTypes.STRING,
+		type: DataTypes.STRING
+	},
+	channel: {
+		type: DataTypes.STRING
 	},
 	spawnedVCs: {
-		type: DataTypes.TEXT, //array of strings representing the ids of the spawned vcs
+		type: DataTypes.JSON,
 		allowNull: false,
-		defaultValue: '[]',
-		get() {
-			return JSON.parse(this.getDataValue('spawnedVCs'));
-		},
-		set(val) {
-			this.setDataValue('spawnedVCs', JSON.stringify(val));
-		},	
-		//defaultValue: [],
+		defaultValue: []
 	}
 });
 
