@@ -4,18 +4,17 @@ const { Collection, GatewayIntentBits } = require('discord.js');
 const config = require('./jsons/config.json');
 const token = config.devtoken
 
-const client = new Discord.Client({disableEveryone: true, failIfNotExists: false,
-								   partials: ['MESSAGE', 'CHANNEL', 'REACTION'], 
-								   intents: [GatewayIntentBits.Guilds, 
-											 GatewayIntentBits.GuildVoiceStates, 
-											 GatewayIntentBits.GuildMessages, 
-											 GatewayIntentBits.GuildMembers, 
-											 GatewayIntentBits.GuildMessageReactions,
-											 GatewayIntentBits.MessageContent]});
+//disable-formatting
+const client = new Discord.Client({
+	disableEveryone: true,
+	failIfNotExists: false,
+	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.MessageContent]
+});
 
-	client.commands = new Collection();
-	client.aliases = new Collection();
-	client.categories = new Collection();
+client.commands = new Collection();
+client.aliases = new Collection();
+client.categories = new Collection();
 
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
