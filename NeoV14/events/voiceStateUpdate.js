@@ -1,6 +1,6 @@
 const { vcCreator } = require("../libs/gdb");
 const { ChannelType } = require('discord.js');
-const TIMEOUT_TIME = 15000; //300000 = 5min
+const TIMEOUT_TIME = 300000; //300000 = 5min
 
 //TODO: although it would be cool to change the name of a spawned channel to a counting down timer until deletion, 
 //it would be hard. Still, try implementing it.
@@ -21,7 +21,6 @@ module.exports = {
 				let channel = oldState.guild.channels.cache.get(oldState.channelId);
 
 				if (channel.members.size == 0) { // If no one is in the channel, delete it after 5 minutes of inactivity
-
 					setTimeout(async () => { // this timeout is checked and removed in next elseif block when fired
 						let gvc = await vcCreator.findByPk(newState.guild.id);
 						channel = await oldState.guild.channels.cache.get(channel.id);
@@ -29,8 +28,6 @@ module.exports = {
 							try { channel.delete(); } catch { };
 							let temp = gvc.spawnedVCs.filter(vc => vc != oldState.channelId);
 							gvc.spawnedVCs = [...temp];
-							// if(temp.length == 0) gvc.spawnedVCs = [];
-							// else gvc.spawnedVCs = [...temp];
 
 							await gvc.save();
 						}
@@ -48,7 +45,7 @@ module.exports = {
 			// TODO: add some preventative logic to stop users from creating too many channels. Limit of 3 per user sounds good
 			let vc = await newState.guild.channels.create({ name: 'Unnamed VC', type: ChannelType.GuildVoice, parent: gvc.category });
 
-			vc.send(`<@${newState.id}>, please specify a name for this vc:`).then(msg => { // ask for a name in the VC text channel
+			vc.send(`<@${newState.id}>, please specify a name for this vc:`).then(() => { // ask for a name in the VC text channel
 				const filter = m => m.author.id == newState.id;
 				let collector = vc.createMessageCollector({ filter, time: 10000 }); //1min timer
 				collector.on('collect', async m => {
