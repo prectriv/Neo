@@ -67,5 +67,5 @@ module.exports.noArg = (interaction, body, title = 'Error') => {
         .setDescription(body)
         .setColor(config.negHex)
 
-    interaction.editReply({embeds: [embed]})
+    interaction.editReply({ embeds: [embed] })
 }

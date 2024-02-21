@@ -1,8 +1,9 @@
-const {Sequelize, DataTypes} = require('sequelize');
-const sequelize = new Sequelize({ username: DataTypes.STRING, database: DataTypes.STRING, 
-							dialect: "sqlite", dialectModule: require("sqlite3"), 
-							storage: `${__dirname}/DATA/WL.db`, define: {freezeTableName: true, charset: "utf-8"}, logging: false
-						});
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize({
+	username: DataTypes.STRING, database: DataTypes.STRING,
+	dialect: "sqlite", dialectModule: require("sqlite3"),
+	storage: `${__dirname}/DATA/WL.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
+});
 
 const verified = sequelize.define("verified", {
 	id: {
