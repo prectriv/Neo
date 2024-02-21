@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, EmbedBuilder}  = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const config = require('../../jsons/config.json')
 
 module.exports = {
@@ -9,8 +9,8 @@ module.exports = {
         .setName('help')
         .setDescription('Displays the full list of commands.'),
 
-        async run (interaction) {
-            interaction.editReply('This currently is a placeholder.')
-                    
-        }
+    async run(interaction) {
+        interaction.editReply('This currently is a placeholder.')
+
+    }
 }

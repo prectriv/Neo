@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'warn',
-	async run (info, token) {
+	async run(info, token) {
 		console.warn(info)
 	}
 }

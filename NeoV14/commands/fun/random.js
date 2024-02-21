@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const config = require('../../jsons/config.json')
 const errors = require('../../utils/errors.js')
 
@@ -16,18 +16,18 @@ module.exports = {
             .setDescription('The lowest number the bot could choose. Defaults to 0')
         ),
 
-        async run (interaction) {
-            low = interaction.options.getInteger('lower') ?? 0
-            high = interaction.options.getInteger('upper')
-            if(low == high) return errors.noArg(interaction, `The chosen number is **${low}**.`, 'The lower bound and upper bound are the same number...')
-            if(low > high) [low, high] = [high, low]
+    async run(interaction) {
+        low = interaction.options.getInteger('lower') ?? 0
+        high = interaction.options.getInteger('upper')
+        if (low == high) return errors.noArg(interaction, `The chosen number is **${low}**.`, 'The lower bound and upper bound are the same number...')
+        if (low > high) [low, high] = [high, low]
 
-            let pick = Math.floor(Math.random() * (high - low + 1)) + low
+        let pick = Math.floor(Math.random() * (high - low + 1)) + low
 
-            let embed = new EmbedBuilder()
-                .setDescription(`I choose: **${pick}**`)
-                .setColor(config.color)
-                .setFooter({text: `From ${low}:${high}`, iconURL: interaction.user.displayAvatarURL()})
-            interaction.editReply({embeds: [embed]})
-        }
+        let embed = new EmbedBuilder()
+            .setDescription(`I choose: **${pick}**`)
+            .setColor(config.color)
+            .setFooter({ text: `From ${low}:${high}`, iconURL: interaction.user.displayAvatarURL() })
+        interaction.editReply({ embeds: [embed] })
+    }
 }
