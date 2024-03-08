@@ -12,6 +12,6 @@
     - This folder contains discord event handler files named for the event in which they correspond to
     - Ex) `./events/guildMemberRemove.js` is the guildMemberRemove event.
 - `./libs/`
-    - This folder currently contains only one file `./libs/db.js` which initalizes the database for this bot.
+    - This folder currently contains two files, one for each database this bot uses. Each database has multiple purposes and functionality, though it is broken up for easier debugging and testing.
 - `./utils/`
     - This folder contains utility and helper functions for commands
