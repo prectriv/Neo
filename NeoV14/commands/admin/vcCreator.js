@@ -1,5 +1,7 @@
-const { SlashCommandBuilder, ChannelType, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
 const { vcCreator } = require('../../libs/gdb');
+const config = require('../../jsons/config.json');
+const interactionCreate = require('../../events/interactionCreate');
 
 /*
 	Creates the database after checking if one already exists. If one does exist, prompts for user to either delete or reset the db 
@@ -26,37 +28,56 @@ module.exports = {
 				.setLabel('Reset')
 				.setCustomId('reset')
 				.setStyle(ButtonStyle.Primary);
+			let vcButton = new ButtonBuilder()
+				.setLabel('Clean Temp VCs')
+				.setCustomId('clean')
+				.setStyle(ButtonStyle.Danger);
 			let dButton = new ButtonBuilder()
-				.setLabel('Delete')
+				.setLabel('Delete System')
 				.setCustomId('delete')
 				.setStyle(ButtonStyle.Danger);
 			let cButton = new ButtonBuilder()
 				.setLabel('Cancel')
 				.setCustomId('cancel')
 				.setStyle(ButtonStyle.Secondary);
-			let row = new ActionRowBuilder().addComponents(rButton, dButton, cButton);
+			let row = new ActionRowBuilder().addComponents(rButton, vcButton, dButton, cButton);
 
-			await interaction.channel.send({ content: `vcCreator already exists for this server...\nWould you like to reset or delete the system?`, components: [row] }).then(msg => {
+			let embed = new EmbedBuilder()
+				.setColor(config.warnHex)
+				.setTitle('vcCreator already exists for this server...')
+				.setDescription('What would you like to do?');
+
+			await interaction.channel.send({ embeds: [embed], components: [row] }).then(msg => {
 				let filter = i => i.user.id == interaction.user.id;
 				let collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
 				collector.on('collect', async i => {
+					// switch on i.customId
 					if (i.customId == 'reset') {
 						await cleanDB(interaction, gvc);
 						createVC(interaction);
 						collector.stop();
 
+					} else if (i.customId == 'clean') {
+						for (const element of gvc.spawnedVCs) { // delete all of the vcs that were spawned by this system.
+							try { await interaction.guild.channels.cache.get(element).delete(); } catch (e) { }
+						}
+						await interaction.editReply({ content: "Cleaned the Temp VCs" }).catch(e => { });
+						collector.stop();
+
 					} else if (i.customId == 'delete') {
 						await cleanDB(interaction, gvc);
-						await interaction.deleteReply().catch(e => { });
+						await interaction.editReply({ content: "Deleted the VC Creation system" }).catch(e => { });
 						collector.stop();
 
 					} else if (i.customId == 'cancel') {
-						await interaction.deleteReply().catch(e => { });
+						interaction.editReply({ content: "Canceled", components: [] })
 						collector.stop();
 					}
 				});
-				collector.on('end', async collected => {
-					await msg.delete().catch(e => { });
+
+				collector.on('end', collected => {
+					if (collected.size == 0) interaction.editReply({ content: 'Timed out.', components: [] });
+					msg.delete().catch(e => { });
 				});
 			});
 		}
@@ -72,6 +93,7 @@ async function cleanDB(interaction, gvc) {
 
 	await gvc.destroy();
 }
+
 async function createVC(interaction) {
 	let gvc = await vcCreator.create({ guild: interaction.guild.id });
 

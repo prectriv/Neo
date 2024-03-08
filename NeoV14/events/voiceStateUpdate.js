@@ -2,13 +2,12 @@ const { vcCreator } = require("../libs/gdb");
 const { ChannelType } = require('discord.js');
 const TIMEOUT_TIME = 300000; //300000 = 5min
 
-//TODO: although it would be cool to change the name of a spawned channel to a counting down timer until deletion, 
-//it would be hard. Still, try implementing it.
-
 module.exports = {
 	name: 'voiceStateUpdate',
 	once: false,
 	async run(oldState, newState, token) {
+		//TODO: once the music stuff works again, i will need to add a check to see if the user is in a music channel and if so, allow deletion if count == 1
+		//		Will need to ensure that both music fucntionality and VCC functionality work together.
 		let gvc = await vcCreator.findByPk(newState.guild.id);
 		if (!gvc) return;
 
@@ -16,9 +15,9 @@ module.exports = {
 
 		if (newState.channelId != oldState.channelId && oldState.channelId != null) { // user moved/left a channel
 			let vcObject = gvc.spawnedVCs.filter(vc => vc == oldState.channelId); // check if the channel is part of the vccreator system
-			if (vcObject[0] != undefined) { // I love filters <3
-				//If the channel is vc
+			if (vcObject[0] != undefined) { // if objecct 0 exists, then the channel is part of the vccreator system
 				let channel = oldState.guild.channels.cache.get(oldState.channelId);
+				if (!channel) return; //means the channel was deleted
 
 				if (channel.members.size == 0) { // If no one is in the channel, delete it after 5 minutes of inactivity
 					setTimeout(async () => { // this timeout is checked and removed in next elseif block when fired
@@ -40,21 +39,12 @@ module.exports = {
 			}
 		}
 
-		//if the user joined the vccreator channel, create a new vc for them
-		if (newState.channelId == gvc.channel) {
-			// TODO: add some preventative logic to stop users from creating too many channels. Limit of 3 per user sounds good
+
+		if (newState.channelId == gvc.channel) {// if the user joined the vccreator channel, create a new vc for them
+			// TODO: add some preventative logic to stop too many channels from being created.
 			let vc = await newState.guild.channels.create({ name: 'Unnamed VC', type: ChannelType.GuildVoice, parent: gvc.category });
 
-			vc.send(`<@${newState.id}>, please specify a name for this vc:`).then(() => { // ask for a name in the VC text channel
-				const filter = m => m.author.id == newState.id;
-				let collector = vc.createMessageCollector({ filter, time: 10000 }); //1min timer
-				collector.on('collect', async m => {
-					let name = `Temp: ${m.content}`
-					vc.setName(name);
-					m.reply(`VC name set to: \`${name}\`!`);
-					collector.stop();
-				});
-			});
+			vc.send(`<@${newState.id}>, use the \`/rename\` command to change this VCs name!`);
 
 			gvc.spawnedVCs = [...gvc.spawnedVCs, vc.id];
 			await gvc.save();
