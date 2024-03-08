@@ -55,25 +55,29 @@ module.exports = {
 				let filter = i => i.user.id == interaction.user.id;
 				let collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
 				collector.on('collect', async i => {
-					// switch on i.customId
-					if (i.customId == 'reset') {
-						await cleanDB(interaction, gvc);
-						createVC(interaction);
-						collector.stop();
+					switch (i.customId) {
+						case 'reset':
+							await cleanDB(interaction, gvc);
+							createVC(interaction);
+							collector.stop();
+							break;
 
-					} else if (i.customId == 'clean') {
-						await cleanTempVcs(interaction, gvc);
-						await interaction.editReply({ content: "Cleaned the Temp VCs" }).catch(e => { });
-						collector.stop();
+						case 'clean':
+							await cleanTempVcs(interaction, gvc);
+							await interaction.editReply({ content: "Cleaned the Temp VCs" }).catch(e => { });
+							collector.stop();
+							break;
 
-					} else if (i.customId == 'delete') {
-						await cleanDB(interaction, gvc);
-						await interaction.editReply({ content: "Deleted the VC Creation system" }).catch(e => { });
-						collector.stop();
+						case 'delete':
+							await cleanDB(interaction, gvc);
+							await interaction.editReply({ content: "Deleted the VC Creation system" }).catch(e => { });
+							collector.stop();
+							break;
 
-					} else if (i.customId == 'cancel') {
-						interaction.editReply({ content: "Canceled", components: [] })
-						collector.stop();
+						case 'cancel':
+							interaction.editReply({ content: "Canceled", components: [] })
+							collector.stop();
+							break;
 					}
 				});
 
