@@ -39,7 +39,7 @@ async function rrEditMessage(interaction) {
 		//create buttons
 
 		//TODO: Some sort of verbose handling for if above 25 entries. 
-		//      Perhaps a second message would be created in DB..... needs complex refactorings.
+		//      Perhaps a second message would be created in DB... would need complex refactorings.
 		for (let i = 0; i < 5; i++) {//for each row up to five.
 			let buttons = [];
 			for (let j = 5 * i; j < 5 * (i + 1); j++) { // 5 buttons per row, incrementing in 5s based on the row number.

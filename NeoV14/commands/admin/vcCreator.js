@@ -28,18 +28,22 @@ module.exports = {
 				.setLabel('Reset')
 				.setCustomId('reset')
 				.setStyle(ButtonStyle.Primary);
+
 			let vcButton = new ButtonBuilder()
 				.setLabel('Clean Temp VCs')
 				.setCustomId('clean')
 				.setStyle(ButtonStyle.Danger);
+
 			let dButton = new ButtonBuilder()
 				.setLabel('Delete System')
 				.setCustomId('delete')
 				.setStyle(ButtonStyle.Danger);
+
 			let cButton = new ButtonBuilder()
 				.setLabel('Cancel')
 				.setCustomId('cancel')
 				.setStyle(ButtonStyle.Secondary);
+
 			let row = new ActionRowBuilder().addComponents(rButton, vcButton, dButton, cButton);
 
 			let embed = new EmbedBuilder()
