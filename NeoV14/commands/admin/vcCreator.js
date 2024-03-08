@@ -62,9 +62,7 @@ module.exports = {
 						collector.stop();
 
 					} else if (i.customId == 'clean') {
-						for (const element of gvc.spawnedVCs) { // delete all of the vcs that were spawned by this system.
-							try { await interaction.guild.channels.cache.get(element).delete(); } catch (e) { }
-						}
+						await cleanTempVcs(interaction, gvc);
 						await interaction.editReply({ content: "Cleaned the Temp VCs" }).catch(e => { });
 						collector.stop();
 
@@ -88,10 +86,14 @@ module.exports = {
 	}
 }
 
-async function cleanDB(interaction, gvc) {
+async function cleanTempVcs(interaction, gvc) {
 	for (const element of gvc.spawnedVCs) { // delete all of the vcs that were spawned by this system.
 		try { await interaction.guild.channels.cache.get(element).delete(); } catch (e) { }
 	}
+}
+
+async function cleanDB(interaction, gvc) {
+	await cleanTempVcs(interaction, gvc);
 	try { await interaction.guild.channels.cache.get(gvc.channel).delete(); } catch (e) { }
 	try { await interaction.guild.channels.cache.get(gvc.category).delete(); } catch (e) { }
 
