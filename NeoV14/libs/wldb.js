@@ -1,11 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize({
+const db = new Sequelize({
 	username: DataTypes.STRING, database: DataTypes.STRING,
 	dialect: "sqlite", dialectModule: require("sqlite3"),
 	storage: `${__dirname}/DATA/WL.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
 });
 
-const verified = sequelize.define("verified", {
+const verified = db.define("verified", {
 	id: {
 		primaryKey: true,
 		type: DataTypes.STRING,
@@ -17,7 +17,7 @@ const verified = sequelize.define("verified", {
 	}
 });
 
-const unverified = sequelize.define("unverified", {
+const unverified = db.define("unverified", {
 	id: {
 		primaryKey: true,
 		type: DataTypes.STRING,
@@ -34,7 +34,7 @@ const unverified = sequelize.define("unverified", {
 });
 
 
-const blacklist = sequelize.define("blacklist", {
+const blacklist = db.define("blacklist", {
 	id: {
 		primaryKey: true,
 		type: DataTypes.STRING,
@@ -43,7 +43,7 @@ const blacklist = sequelize.define("blacklist", {
 });
 
 (async () => {
-	await sequelize.sync();
+	await db.sync();
 })()
 
 

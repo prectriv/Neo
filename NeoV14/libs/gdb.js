@@ -1,11 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize({
+const db = new Sequelize({
 	username: DataTypes.STRING, database: DataTypes.STRING,
 	dialect: "sqlite", dialectModule: require("sqlite3"),
 	storage: `${__dirname}/DATA/GUILD_INFO.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
 });
 
-const rr = sequelize.define("rr", {
+const rr = db.define("rr", {
 	guild: {
 		type: DataTypes.STRING,
 		allowNull: false,
@@ -29,7 +29,7 @@ const rr = sequelize.define("rr", {
 	}
 });
 
-const vcCreator = sequelize.define("vcCreator", {
+const vcCreator = db.define("vcCreator", {
 	guild: {
 		type: DataTypes.STRING,
 		primaryKey: true
@@ -48,7 +48,7 @@ const vcCreator = sequelize.define("vcCreator", {
 });
 
 (async () => {
-	await sequelize.sync();
+	await db.sync();
 })()
 
 
