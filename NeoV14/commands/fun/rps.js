@@ -21,15 +21,15 @@ module.exports = {
         let outputC = ['Rock', 'Paper', 'Scissors']
         let winText = [`it's a draw!`, 'I win!', 'you win!']
 
-        choice = parseInt(interaction.options.getString('choice'))
+        let choice = parseInt(interaction.options.getString('choice'))
 
-        i = 0
+        let i = 0
         while (i < choice) {
-            outputC.push(outputC.shift())
+            outputC.push(outputC.shift()) // for each choice, rotate the array to the left until said choice is at the front.
             i++
         }
 
-        win = Math.floor(Math.random() * 3) //0 = draw, 1 = bot win, 2 = user win
+        let win = Math.floor(Math.random() * 3) //0 = draw, 1 = bot win, 2 = user win
         //if(win == 0) color = warnHex else if(win == 1) color = negHex else color = posHex
         let color = win == 0 ? warnHex : win == 1 ? negHex : posHex
 

@@ -17,8 +17,8 @@ module.exports = {
         ),
 
     async run(interaction) {
-        low = interaction.options.getInteger('lower') ?? 0
-        high = interaction.options.getInteger('upper')
+        let low = interaction.options.getInteger('lower') ?? 0;
+        let high = interaction.options.getInteger('upper');
         if (low == high) return errors.noArg(interaction, `The chosen number is **${low}**.`, 'The lower bound and upper bound are the same number...')
         if (low > high) [low, high] = [high, low]
 

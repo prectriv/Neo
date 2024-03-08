@@ -14,7 +14,7 @@ module.exports = {
 
      async run(interaction) {
           const user = interaction.options.getUser('user') || interaction.user
-          let img = user.displayAvatarURL({ dynamic: true, size: 4096, format: "png" })
+          const img = user.displayAvatarURL({ dynamic: true, size: 4096, format: "png" })
           const color = await getAverageColor(img);
 
           let embed = new EmbedBuilder()

@@ -18,14 +18,16 @@ module.exports = {
 
         let { body } = await superagent
             .get(link)
-            .catch(e => { return errors.noArg(interaction, title = 'No results found!', body = `\`${term}\` has no results, check your spelling and try again!`) })
+            .catch(e => { return errors.noArg(interaction, `has no results, check your spelling and try again!`, 'No results found!') })
 
-        res = body.list
-        if (!res || !res.length) return errors.noArg(interaction, title = 'No results found!', body = `\`${term}\` has no results, check your spelling and try again!`)
+        let res = body.list
+        if (!res?.length) return errors.noArg(interaction, `has no results, check your spelling and try again!`, 'No results found!')
+        //equivilent to if(!res || !res.length) ...
 
         async function sort() {
             return new Promise(async resolve => {
-                var max = 0
+                let max = 0
+                let highestScore = 0
                 for (var i in res) {
                     if ((res[i].thumbs_up - res[i].thumbs_down) > max) {
                         max = (res[i].thumbs_up - res[i].thumbs_down)

@@ -1,8 +1,6 @@
 function capitalize(text) {
-	if (typeof text !== 'string') return ''
 	return text.charAt(0).toUpperCase() + text.slice(1)
 }
-
 
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 const config = require('../jsons/config.json');
@@ -56,15 +54,15 @@ async function rrEditMessage(interaction) {
 				}
 				buttons.push( // create a button and add it to the array.
 					new ButtonBuilder()
-						.setCustomId(`RR_${interaction.guild.id}_${role.id}`)//how to determine the role id.
+						.setCustomId(`RR_${interaction.guild.id}_${role.id}`)// How to determine the role id.
 						.setLabel(`${role.name}`)
 						.setStyle(ButtonStyle.Secondary)
 				);
 			}
-			if (buttons.length == 0) break; //Means that there are no more buttons to add, so stop the loop.
+			if (buttons.length == 0) break; // Means that there are no more buttons to add, so stop the loop.
 			interactionRows.push(new ActionRowBuilder().addComponents(buttons)); //add the row to the rows list.
-			if (buttons.length != 5) break; //Loop will automatically stop after 25, though if there isnt 5 buttons, 
-			//it will stop early as that means it reached the end of the RRs
+			if (buttons.length != 5) break; // Loop will automatically stop after 25, though if there isnt 5 buttons, 
+			// it will stop early as that means it reached the end of the RRs
 		}
 
 		//fetch message
