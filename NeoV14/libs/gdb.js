@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = new Sequelize({
 	username: DataTypes.STRING, database: DataTypes.STRING,
 	dialect: "sqlite", dialectModule: require("sqlite3"),
-	storage: `${__dirname}/DATA/GUILD_INFO.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
+	storage: `${__dirname}/DATA/GUILD_DATA.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
 });
 
 const rr = db.define("rr", {
@@ -47,6 +47,23 @@ const vcCreator = db.define("vcCreator", {
 	}
 });
 
+const guildPref = db.define("pref", {
+	guild: {
+		type: DataTypes.STRING,
+		primaryKey: true
+	},
+	vccLimit: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		defaultValue: 10,
+		validate: { //FIXME: Determine if this is working/needed. Also determine a better ammount in the future.
+			min: 10, // default limit
+			max: 25 // hardcoded limit to prevent overloading a server/the bot
+		}
+	}
+});
+
+
 (async () => {
 	await db.sync();
 })()
@@ -54,7 +71,8 @@ const vcCreator = db.define("vcCreator", {
 
 module.exports = {
 	rr,
-	vcCreator
+	vcCreator,
+	guildPref
 }
 
 //sequelize = new _sequelize.Sequelize({ username: config.db_user, database: config.db_name, password: config.db_password, dialect: "sqlite", dialectModule: require("sqlite3"), storage: config.db_file, define: {freezeTableName: true, charset: "utf-8"}, logging: log })

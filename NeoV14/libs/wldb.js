@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = new Sequelize({
 	username: DataTypes.STRING, database: DataTypes.STRING,
 	dialect: "sqlite", dialectModule: require("sqlite3"),
-	storage: `${__dirname}/DATA/WL.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
+	storage: `${__dirname}/DATA/WL_DATA.db`, define: { freezeTableName: true, charset: "utf-8" }, logging: false
 });
 
 const verified = db.define("verified", {
