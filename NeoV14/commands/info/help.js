@@ -10,6 +10,7 @@ module.exports = {
         .setDescription('Displays the full list of commands.'),
 
     async run(interaction) {
+        //TODO: actually make this command do something.
         interaction.editReply('This currently is a placeholder.')
 
     }

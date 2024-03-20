@@ -8,12 +8,12 @@ module.exports = {
      data: new SlashCommandBuilder()
           .setName('avatar')
           .setDescription('Displays the specified users avatar, or your avatar if no user is provided.')
-          .addUserOption(option => option.setName('user')
+          .addStringOption(option => option.setName('user')
                .setDescription('The user\'s avatar to show. Leave blank if you want your own.')
           ),
 
      async run(interaction) {
-          const user = interaction.options.getUser('user') || interaction.user
+          const user = interaction.options.getUser('user') ?? interaction.user //not sure if || or ?? should be prefered for JS style
           const img = user.displayAvatarURL({ dynamic: true, size: 4096, format: "png" })
           const color = await getAverageColor(img);
 
