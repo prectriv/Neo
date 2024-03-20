@@ -57,18 +57,21 @@ module.exports = {
 				collector.on('collect', async i => {
 					switch (i.customId) {
 						case 'reset':
+							msg.edit({ embeds: [embed.setTitle("Resetting VCC System").setDescription('please wait...').setColor(config.negHex)] });
 							await cleanDB(interaction, gvc);
 							createVC(interaction);
 							collector.stop();
 							break;
 
 						case 'clean':
+							msg.edit({ embeds: [embed.setTitle("Cleaning spawned VCs").setDescription('please wait...').setColor(config.posHex)] });
 							await cleanTempVcs(interaction, gvc);
 							await interaction.editReply({ content: "Cleaned the Temp VCs" }).catch(e => { });
 							collector.stop();
 							break;
 
 						case 'delete':
+							msg.edit({ embeds: [embed.setTitle("Deleting VCC System").setDescription('please wait...').setColor(config.negHex)] });
 							await cleanDB(interaction, gvc);
 							await interaction.editReply({ content: "Deleted the VC Creation system" }).catch(e => { });
 							collector.stop();
