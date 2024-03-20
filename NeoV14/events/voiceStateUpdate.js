@@ -1,4 +1,4 @@
-const { vcCreator } = require("../libs/gdb");
+const { vcCreator, guildPref } = require("../libs/gdb");
 const { ChannelType } = require('discord.js');
 const TIMEOUT_TIME = 300000; //300000 = 5min
 
@@ -42,7 +42,14 @@ module.exports = {
 
 		if (newState.channelId == gvc.channel) {// if the user joined the vccreator channel, create a new vc for them
 			// TODO: add some preventative logic to stop too many channels from being created.
-			let vc = await newState.guild.channels.create({ name: 'Unnamed VC', type: ChannelType.GuildVoice, parent: gvc.category });
+			// once the server preferences system is back online, will add a check to see if the server has a max limit set. 
+			// Set the default for this value to be 10 or so, and a hardcoded limit of 25 to not overload the bot..
+			let gPref = await guildPref.findOrCreate({ where: { guild: newState.guild.id } });
+			if (gPref[0].vccLimit <= gvc.spawnedVCs.length) {
+				newState.member.send("You have reached the limit of temp VCs for this server. Please wait for a VC to be deleted before creating a new one.");
+				return;
+			}
+			let vc = await newState.guild.channels.create({ name: 'Temp VC', type: ChannelType.GuildVoice, parent: gvc.category });
 
 			vc.send(`<@${newState.id}>, use the \`/rename\` command to change this VCs name!`);
 
